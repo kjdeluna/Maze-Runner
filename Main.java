@@ -5,7 +5,7 @@ public class Main {
     
     private final static String TITLE = "Maze Runner";
     public final static int FRAME_WIDTH = 320;
-    public final static int FRAME_HEIGHT = 320;
+    public final static int FRAME_HEIGHT = 320 + 30;
     public final static int TILE_SIZE = 32;
     private static String[] textures;
     public static TextureLoader textureLoader;
@@ -32,7 +32,12 @@ public class Main {
         // --- JFrame initialize end -----------
 
         World world = new World(10, 10);
+        OptionsPanel optionsPanel = new OptionsPanel(world);
+        world.setBounds(0,0,10 * Main.TILE_SIZE, 10 * Main.TILE_SIZE);
+        optionsPanel.setBounds(0, 10 * Main.TILE_SIZE, Main.FRAME_WIDTH, 30);
+        gameFrame.setLayout(null);
         gameFrame.add(world);
+        gameFrame.add(optionsPanel);
         // Pack components to JFrame
         gameFrame.pack();
         

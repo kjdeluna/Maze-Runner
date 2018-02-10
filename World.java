@@ -5,23 +5,27 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
+
 public class World extends JPanel implements KeyListener{
     public static int ROWS;
     public static int COLS;
-    private final static String WALL = "W";
-    private final static String VISITED_TILE = "v";
-    private final static String GOAL_TILE = "G";
-    private final static String UNVISITED_TILE = "t";
-    private final static String PLAYER = "P"; 
+    public final static String WALL = "W";
+    public final static String VISITED_TILE = "v";
+    public final static String GOAL_TILE = "G";
+    public final static String UNVISITED_TILE = "t";
+    public final static String PLAYER = "P"; 
     private String[][] worldArray;
     private Player player;
+    private boolean solved;
     public World(int rows, int cols){
         this.ROWS = rows;
         this.COLS = cols;
+        this.solved = false;
         this.worldArray = new String[rows][cols];
         this.readFile("map.in");
         this.setLayout(null);
-        this.setBounds(0,0, Main.FRAME_WIDTH, Main.FRAME_HEIGHT);
+        this.setBounds(0,0, Main.FRAME_WIDTH, Main.FRAME_HEIGHT-50);
         this.setFocusable(true);
         this.requestFocusInWindow();
         this.addKeyListener(this);
@@ -57,12 +61,12 @@ public class World extends JPanel implements KeyListener{
                 invokeAction(Directions.RIGHT);
                 break;
         }
-        this.repaint();
     }
     public void keyTyped(KeyEvent e){}
     public void keyReleased(KeyEvent e){}
 
     private void invokeAction(Directions dir){
+        if(solved) return;
         String nextObject = "";
         int currPlayerRow = this.player.getCurrRow();
         int currPlayerCol = this.player.getCurrCol();
@@ -114,12 +118,16 @@ public class World extends JPanel implements KeyListener{
             this.worldArray[nextPlayerRow][nextPlayerCol] = PLAYER;
             this.movePlayer(headed);
         }
+        // Winning condition
         else if( nextObject.equals(GOAL_TILE) ){
             this.worldArray[currPlayerRow][currPlayerCol] = this.player.getPrevValue();
             this.player.setPrevValue(GOAL_TILE);
             this.worldArray[nextPlayerRow][nextPlayerCol] = PLAYER;
             this.movePlayer(headed);
+            this.solved = true;
         }
+        this.repaint();
+        if(solved) JOptionPane.showMessageDialog(null, "You win");
     }
 
     private void movePlayer(Directions dir){
@@ -173,6 +181,14 @@ public class World extends JPanel implements KeyListener{
                 this.player.setTexture(Main.textureLoader.getTexture(Texture.DEFAULT_PATH, "player_right.png"));
                 break;
         }
+    }
+
+    public String[][] getWorldArray(){
+        return this.worldArray;
+    }
+
+    public Player getPlayer(){
+        return this.player;
     }
 
     public void paintComponent(Graphics g){
