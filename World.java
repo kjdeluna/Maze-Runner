@@ -18,6 +18,8 @@ public class World extends JPanel implements KeyListener{
     private String[][] worldArray;
     private Player player;
     private boolean solved;
+    private int goalRow;
+    private int goalCol;
     public World(int rows, int cols){
         this.ROWS = rows;
         this.COLS = cols;
@@ -157,6 +159,10 @@ public class World extends JPanel implements KeyListener{
                 for(int j = 0; j < COLS; j++){
                     this.worldArray[i][j] = lineRead[j];
                     if(this.worldArray[i][j].equals(PLAYER)) this.player = new Player(i, j);
+                    else if(this.worldArray[i][j].equals(GOAL_TILE)){
+                        this.goalRow = i;
+                        this.goalCol = j;
+                    }
                 }
                 i += 1;
             }
@@ -166,6 +172,13 @@ public class World extends JPanel implements KeyListener{
         }
     }
 
+    public int getGoalRow(){
+        return this.goalRow;
+    }
+
+    public int getGoalCol(){
+        return this.goalCol;
+    }
     private void switchPlayerTexture(Directions dir){
         switch(dir){
             case UP:

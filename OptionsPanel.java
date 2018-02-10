@@ -23,7 +23,8 @@ public class OptionsPanel extends JPanel{
         aStarSolveButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 LinkedList<Directions> empty = new LinkedList<Directions>();
-                Solver aStarSolver = new Solver(new State(world.getWorldArray(), world.getPlayer(), empty));
+                // worldArray, player, path, isWin, goalRow, goalCol
+                Solver aStarSolver = new Solver(new State(world.getWorldArray(), world.getPlayer(), empty, false, world.getGoalRow(), world.getGoalCol()));
             }
         });
         

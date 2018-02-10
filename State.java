@@ -17,14 +17,25 @@ import java.util.LinkedList;
 public class State{
     private String[][] worldArray = new String[World.ROWS][World.COLS];
     private Player player;
+    private int goalRow;
+    private int goalCol;
     private LinkedList<Directions> path;
     private int g; // path cost
-    public State(String[][] worldArray, Player player, LinkedList<Directions> path){
+    private boolean win;
+    public State(String[][] worldArray, Player player, LinkedList<Directions> path, boolean win, int goalRow, int goalCol){
         this.worldArray = worldArray;
         this.player = player;           // contains the rows and cols of the player 
         this.path = path;
+        this.win = win;
+        this.goalRow = goalRow;
+        this.goalCol = goalCol;
     }
-
+    public boolean getWin(){
+        return this.win;
+    }
+    public void gameWon(boolean val){
+        this.win = val;
+    }
     public String[][] getWorldArray(){
         return this.worldArray;
     }
@@ -48,7 +59,7 @@ public class State{
         this.path.add(direction);
     }
 
-    public void PathCost(){
+    public int PathCost(){
         return this.path.size();
     }
 }
