@@ -1,10 +1,12 @@
 import java.util.LinkedList;
 import java.util.PriorityQueue;
+// import java.util.PriorityQueue.iterator;
 import java.util.Comparator;
 import java.util.Queue;
 import java.util.Set;
 import java.util.HashMap;
 import java.util.Arrays;
+import java.util.Iterator;
 public class Solver{
     private State initialState;
 	public static Comparator<State> fValueComparator = new Comparator<State>(){
@@ -22,53 +24,58 @@ public class Solver{
         // LinkedList<Directions> store = this.Actions(initialState);
         // System.out.println(store.size());
         State solution = this.aStarSolve(this.initialState);
-        LinkedList<Directions> path = solution.getPath();
-        for(Directions dir : path){
-            System.out.println(dir);
+        if(solution != null){
+            LinkedList<Directions> path = solution.getPath();
+            for(Directions dir : path){
+                System.out.println(dir);
+            }
         }
+        else System.out.println("No solution");
     }
 
-    private boolean contains(Queue<State> openList, State toBeInspected){
-        return false;
+    private State contains(PriorityQueue<State> openList, State toBeInspectedState){
+        int statePlayerRow = toBeInspectedState.getPlayer().getCurrRow();
+        int statePlayerCol = toBeInspectedState.getPlayer().getCurrCol();
+        Iterator  it = openList.iterator();
+        while(it.hasNext()){
+            State retrieved = (State) it.next();
+            if(retrieved.getPlayer().getCurrRow() == statePlayerRow && retrieved.getPlayer().getCurrCol() == statePlayerCol){
+                return retrieved;
+            }
+        }
+        return null;
+    }
+    private State hashContains(HashMap<String,State> closedList, State toBeInspectedState){
+        int statePlayerRow = toBeInspectedState.getPlayer().getCurrRow();
+        int statePlayerCol = toBeInspectedState.getPlayer().getCurrCol();
+        String combined = Integer.toString(statePlayerRow) + Integer.toString(statePlayerCol);
+        return closedList.get(combined);
     }
 
     private State aStarSolve(State initialState){
-        Queue<State> openList = new PriorityQueue<>(11, fValueComparator);
+        PriorityQueue<State> openList = new PriorityQueue<>(11, fValueComparator);
         HashMap<String,State> closedList = new HashMap<String,State>();
         openList.add(initialState);
+
         while(openList.peek() != null){
             State s = openList.poll();
             System.out.println(s.getF());
-            for(int i = 0; i < World.ROWS; i++){
-                for(int j = 0; j < World.COLS; j++){
-                    System.out.print(s.getWorldArray()[i][j] + " ");
-                }
-            System.out.println("");
-            }
-            closedList.put(Arrays.deepToString(s.getWorldArray()), s);
+            closedList.put(Integer.toString(s.getPlayer().getCurrRow()) + Integer.toString(s.getPlayer().getCurrCol()),s);
             if(GoalTest(s)) return s;
             for(Directions dir : Actions(s)){
                 State x = Result(s,dir);
                 String[][] world = x.getWorldArray();
-
-                // printing
-                // System.out.println("");
-                // System.out.println(dir);
-                // for(int i = 0; i < World.ROWS; i++){
-                //     for(int j = 0; j < World.COLS; j++){
-                //         System.out.print(world[i][j] + " ");
-                //     }
-                //     System.out.println("");
-                // }
-
-
-                String key = Arrays.deepToString(x.getWorldArray());
-                if( (!closedList.containsKey(key))
-                   || (closedList.containsKey(key) 
-                   && x.getG() < closedList.get(key).getG()) ){
-                       openList.add(x);
-                   }
-                
+                State value;
+                boolean isExisting;
+                isExisting = (value = this.contains(openList, x)) == null ? false : true;
+                State value2;
+                boolean isExisting2;
+                isExisting2 = (value2 = this.hashContains(closedList, x)) == null ? false : true;
+                if( (!isExisting || !isExisting2) 
+                    || (isExisting && x.getG() < value.getG()) 
+                    || (isExisting2 && x.getG() < value2.getG()) ){
+                        openList.add(x);
+                }
             }
         }
         return null;
