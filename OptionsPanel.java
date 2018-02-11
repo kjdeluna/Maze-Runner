@@ -15,11 +15,19 @@ public class OptionsPanel extends JPanel{
         this.setPreferredSize(new Dimension(Main.FRAME_WIDTH, 50));
         this.setOpaque(true);
         this.setBackground(Color.BLACK);
-
+        JButton generateMapButton = new JButton("New Map");
         JButton aStarSolveButton = new JButton("A* Solve");
+        this.add(generateMapButton);
         this.add(aStarSolveButton);
-        aStarSolveButton.setBounds(0, 0, 100,30);
+        generateMapButton.setBounds(0,0,100,30);
+        generateMapButton.setFocusable(false);
+        aStarSolveButton.setBounds(100, 0, 100,30);
         aStarSolveButton.setFocusable(false);
+        generateMapButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                world.generateWorldArray();
+            }
+        });
         aStarSolveButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 LinkedList<Directions> empty = new LinkedList<Directions>();

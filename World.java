@@ -35,7 +35,7 @@ public class World extends JPanel implements KeyListener{
         this.setLayout(null);
     }
     
-    private void generateWorldArray(){
+    public void generateWorldArray(){
         boolean playerGenerated = false;
         boolean goalGenerated = false;
         String[] choices = new String[]{
@@ -93,6 +93,7 @@ public class World extends JPanel implements KeyListener{
                 }
             }
         }
+        this.repaint();
     }
 
     public String up(Player player){
