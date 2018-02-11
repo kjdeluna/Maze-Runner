@@ -20,11 +20,11 @@ public class World extends JPanel implements KeyListener{
     private boolean solved;
     private int goalRow;
     private int goalCol;
-    public World(int rows, int cols){
-        this.ROWS = rows;
-        this.COLS = cols;
+    public World(int n){
+        this.ROWS = n;
+        this.COLS = n;
         this.solved = false;
-        this.worldArray = new String[rows][cols];
+        this.worldArray = new String[ROWS][COLS];
         this.generateWorldArray();
         // this.readFile("map.in");
         this.setLayout(null);
@@ -47,52 +47,49 @@ public class World extends JPanel implements KeyListener{
         Random rand = new Random();
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
-                int num = rand.nextInt(choices.length);
-                if(choices[num] == PLAYER && ((COLS > ROWS && i != ROWS - 1 && j != COLS - 2) || 
-                                    (ROWS > COLS && i != ROWS - 2 && j != COLS-1))){
-                    if(playerGenerated){
-                        j--;
-                        continue;
-                    }
-                    else{
+                if(i == ROWS - 1 && j == COLS-2){
+                    if(!playerGenerated){
                         playerGenerated = true;
                         this.player = new Player(i,j);
+                        this.worldArray[i][j] = PLAYER;
+                        continue;
                     }
                 }
-                else if(choices[num] == GOAL_TILE && ((COLS > ROWS && i != ROWS - 1 && j != COLS - 1) || 
-                                    (ROWS > COLS && i != ROWS - 1 && j != COLS-1))){
-                    if(goalGenerated){
+                else if(i == ROWS-1 && j == COLS-1){
+                    if(!goalGenerated){
+                        this.goalRow = i;
+                        this.goalCol = j;
+                        goalGenerated = true;
+                        this.worldArray[i][j] = GOAL_TILE;
+                        continue;
+                    }
+                }
+                int randNum = rand.nextInt(choices.length);
+                if(choices[randNum] == PLAYER){
+                    if(!playerGenerated){
+                        playerGenerated = true;
+                        this.player = new Player(i,j);
+                        this.worldArray[i][j] = PLAYER;
+                    }
+                    else{
                         j--;
                         continue;
                     }
-                    else{
-                        goalGenerated = true;
+                }
+                else if(choices[randNum] == GOAL_TILE){
+                    if(!goalGenerated){
                         this.goalRow = i;
                         this.goalCol = j;
+                        goalGenerated = true;
+                        this.worldArray[i][j] = GOAL_TILE;
+                    }
+                    else{
+                        j--;
+                        continue;
                     }
                 }
-                this.worldArray[i][j] = choices[num];
-                if(COLS > ROWS && i == ROWS - 1 && j == COLS - 2 && !playerGenerated){
-                    playerGenerated = true;
-                    this.worldArray[i][j] = PLAYER;
-                    this.player = new Player(i,j);
-                }
-                else if(COLS > ROWS && i == ROWS - 1 && j == COLS - 1 && !goalGenerated){
-                    this.worldArray[i][j] = GOAL_TILE;
-                    goalGenerated = true;
-                    this.goalRow = i;
-                    this.goalCol = j;
-                }
-                else if(!playerGenerated && ROWS > COLS && i == ROWS - 2 && j == COLS - 1){
-                    playerGenerated = true;
-                    this.worldArray[i][j] = PLAYER;
-                    this.player = new Player(i,j);        
-                }
-                else if(!goalGenerated && ROWS > COLS && i == ROWS - 1 && j == COLS - 1){
-                    goalGenerated = true;
-                    this.worldArray[i][j] = GOAL_TILE;
-                    this.goalRow = i;
-                    this.goalCol = j;
+                else{
+                    this.worldArray[i][j] = choices[randNum];
                 }
             }
         }

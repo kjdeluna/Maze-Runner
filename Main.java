@@ -25,12 +25,14 @@ public class Main {
         Main.textureLoader = new TextureLoader(Texture.DEFAULT_PATH, Main.textures);
         
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter number of rows: ");
-        int rows = sc.nextInt();
-        System.out.print("Enter number of cols: ");
-        int cols = sc.nextInt();
-        FRAME_HEIGHT = rows * TILE_SIZE + 30;
-        FRAME_WIDTH = cols * TILE_SIZE;
+        int n;
+        do{
+            System.out.print("Enter number of rows: ");
+            n = sc.nextInt();
+            if(n < 2) System.out.println("Invalid input!");
+        } while (n < 2);
+        FRAME_HEIGHT = n * TILE_SIZE + 30;
+        FRAME_WIDTH = n * TILE_SIZE;
         // ------- Initialize JFrame ---------
         JFrame gameFrame = new JFrame(Main.TITLE);
         gameFrame.setPreferredSize(new Dimension(Main.FRAME_WIDTH, Main.FRAME_HEIGHT));
@@ -39,7 +41,7 @@ public class Main {
         gameFrame.setLayout(null);
         // --- JFrame initialize end -----------
 
-        World world = new World(rows, cols);
+        World world = new World(n);
         OptionsPanel optionsPanel = new OptionsPanel(world);
         world.setBounds(0,0, FRAME_WIDTH, FRAME_HEIGHT-30);
         optionsPanel.setBounds(0, FRAME_HEIGHT-30, Main.FRAME_WIDTH, 30);
