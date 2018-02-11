@@ -33,6 +33,11 @@ public class State{
         this.g = PathCost();
         this.h = this.computeH();
     }
+    public State(String[][] worldArray, Player player, LinkedList<Directions> path){
+        this.worldArray = worldArray;
+        this.player = player;
+        this.path = path;
+    }
     public double getF(){
         return this.g + this.h;
     }

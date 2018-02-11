@@ -36,6 +36,7 @@ public class World extends JPanel implements KeyListener{
     }
     
     public void generateWorldArray(){
+        this.solved = false;
         boolean playerGenerated = false;
         boolean goalGenerated = false;
         String[] choices = new String[]{
@@ -128,8 +129,13 @@ public class World extends JPanel implements KeyListener{
     }
     public void keyTyped(KeyEvent e){}
     public void keyReleased(KeyEvent e){}
-
-    private void invokeAction(Directions dir){
+    public void setPlayer(Player player){
+        this.player = player;
+    }
+    public void setWorldArray(String[][] worldArray){
+        this.worldArray = worldArray;
+    }
+    public void invokeAction(Directions dir){
         if(solved) return;
         String nextObject = "";
         int currPlayerRow = this.player.getCurrRow();
@@ -138,6 +144,7 @@ public class World extends JPanel implements KeyListener{
         int nextPlayerCol = currPlayerCol;
         Directions headed = null;
         boolean outOfBounds = false;
+        // this.repaint();
         switch(dir){
             case UP:    
                 this.switchPlayerTexture(Directions.UP);

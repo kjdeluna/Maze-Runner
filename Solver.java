@@ -23,17 +23,6 @@ public class Solver{
         this.initialState = initialState;
         // LinkedList<Directions> store = this.Actions(initialState);
         // System.out.println(store.size());
-        long startTime = System.currentTimeMillis();
-        State solution = this.aStarSolve(this.initialState);
-        long endTime = System.currentTimeMillis();
-        System.out.println("That took " + (endTime - startTime) + " milliseconds.");
-        if(solution != null){
-            LinkedList<Directions> path = solution.getPath();
-            for(Directions dir : path){
-                System.out.println(dir);
-            }
-        }
-        else System.out.println("No solution");
     }
 
     private State contains(PriorityQueue<State> openList, State toBeInspectedState){
@@ -55,10 +44,10 @@ public class Solver{
         return closedList.get(combined);
     }
 
-    private State aStarSolve(State initialState){
+    public State aStarSolve(){
         PriorityQueue<State> openList = new PriorityQueue<>(11, fValueComparator);
         HashMap<String,State> closedList = new HashMap<String,State>();
-        openList.add(initialState);
+        openList.add(this.initialState);
 
         while(openList.peek() != null){
             State s = openList.poll();

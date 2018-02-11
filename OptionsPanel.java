@@ -34,6 +34,14 @@ public class OptionsPanel extends JPanel{
                 // worldArray, player, path, isWin, goalRow, goalCol
                 // empty.add(Directions.LEFT);
                 Solver aStarSolver = new Solver(new State(world.getWorldArray(), world.getPlayer(), empty, false, world.getGoalRow(), world.getGoalCol()));
+                long startTime = System.currentTimeMillis();
+                State resultantState = aStarSolver.aStarSolve();
+                long endTime = System.currentTimeMillis();
+                System.out.println("That took " + (endTime - startTime) + " milliseconds.");
+                if(resultantState != null){
+                    SolutionWindow sw = new SolutionWindow(world, resultantState.getPath(), (endTime - startTime), resultantState.getF());
+                }
+                else System.out.println("No solution found");            
             }
         });
         
