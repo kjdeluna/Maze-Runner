@@ -24,6 +24,7 @@ public class OptionsPanel extends JPanel{
             public void actionPerformed(ActionEvent e){
                 LinkedList<Directions> empty = new LinkedList<Directions>();
                 // worldArray, player, path, isWin, goalRow, goalCol
+                // empty.add(Directions.LEFT);
                 Solver aStarSolver = new Solver(new State(world.getWorldArray(), world.getPlayer(), empty, false, world.getGoalRow(), world.getGoalCol()));
             }
         });

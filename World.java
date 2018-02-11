@@ -207,10 +207,10 @@ public class World extends JPanel implements KeyListener{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        System.out.println("");
+        // System.out.println("");
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
-                System.out.print(this.worldArray[i][j] + " ");
+                // System.out.print(this.worldArray[i][j] + " ");
                 switch(this.worldArray[i][j]){
                     case WALL: 
                         Main.textureLoader.getTexture(Texture.DEFAULT_PATH, "wall.png").render(g2d, j * Main.TILE_SIZE, i * Main.TILE_SIZE);
@@ -239,7 +239,7 @@ public class World extends JPanel implements KeyListener{
 
                 }
             }
-                System.out.println("");
+                // System.out.println("");
         }
     }
 }
