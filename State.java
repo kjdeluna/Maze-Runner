@@ -52,7 +52,8 @@ public class State{
         return this.worldArray;
     }
     public double computeH(){
-        return Math.sqrt((Math.pow(this.player.getCurrCol() - this.goalCol, 2)) + (Math.pow(this.player.getCurrRow() - this.goalRow, 2)));
+        // return Math.sqrt((Math.pow(this.player.getCurrCol() - this.goalCol, 2)) + (Math.pow(this.player.getCurrRow() - this.goalRow, 2)));
+        return Math.abs(this.player.getCurrCol() - this.goalCol) + Math.abs(this.player.getCurrRow() - this.goalRow);
     }
     public LinkedList<Directions> getPath(){
         return this.path;

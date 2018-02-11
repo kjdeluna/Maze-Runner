@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
-
+import java.util.Random;
 public class World extends JPanel implements KeyListener{
     public static int ROWS;
     public static int COLS;
@@ -25,7 +25,8 @@ public class World extends JPanel implements KeyListener{
         this.COLS = cols;
         this.solved = false;
         this.worldArray = new String[rows][cols];
-        this.readFile("map.in");
+        this.generateWorldArray();
+        // this.readFile("map.in");
         this.setLayout(null);
         this.setBounds(0,0, Main.FRAME_WIDTH, Main.FRAME_HEIGHT-50);
         this.setFocusable(true);
@@ -34,6 +35,69 @@ public class World extends JPanel implements KeyListener{
         this.setLayout(null);
     }
     
+    private void generateWorldArray(){
+        boolean playerGenerated = false;
+        boolean goalGenerated = false;
+        String[] choices = new String[]{
+            "P",
+            "t",
+            "W",
+            "G"
+        };
+        Random rand = new Random();
+        for(int i = 0; i < ROWS; i++){
+            for(int j = 0; j < COLS; j++){
+                int num = rand.nextInt(choices.length);
+                if(choices[num] == PLAYER && ((COLS > ROWS && i != ROWS - 1 && j != COLS - 2) || 
+                                    (ROWS > COLS && i != ROWS - 2 && j != COLS-1))){
+                    if(playerGenerated){
+                        j--;
+                        continue;
+                    }
+                    else{
+                        playerGenerated = true;
+                        this.player = new Player(i,j);
+                    }
+                }
+                else if(choices[num] == GOAL_TILE && ((COLS > ROWS && i != ROWS - 1 && j != COLS - 1) || 
+                                    (ROWS > COLS && i != ROWS - 1 && j != COLS-1))){
+                    if(goalGenerated){
+                        j--;
+                        continue;
+                    }
+                    else{
+                        goalGenerated = true;
+                        this.goalRow = i;
+                        this.goalCol = j;
+                    }
+                }
+                this.worldArray[i][j] = choices[num];
+                if(COLS > ROWS && i == ROWS - 1 && j == COLS - 2 && !playerGenerated){
+                    playerGenerated = true;
+                    this.worldArray[i][j] = PLAYER;
+                    this.player = new Player(i,j);
+                }
+                else if(COLS > ROWS && i == ROWS - 1 && j == COLS - 1 && !goalGenerated){
+                    this.worldArray[i][j] = GOAL_TILE;
+                    goalGenerated = true;
+                    this.goalRow = i;
+                    this.goalCol = j;
+                }
+                else if(!playerGenerated && ROWS > COLS && i == ROWS - 2 && j == COLS - 1){
+                    playerGenerated = true;
+                    this.worldArray[i][j] = PLAYER;
+                    this.player = new Player(i,j);        
+                }
+                else if(!goalGenerated && ROWS > COLS && i == ROWS - 1 && j == COLS - 1){
+                    goalGenerated = true;
+                    this.worldArray[i][j] = GOAL_TILE;
+                    this.goalRow = i;
+                    this.goalCol = j;
+                }
+            }
+        }
+    }
+
     public String up(Player player){
         return this.worldArray[player.getCurrRow()-1][player.getCurrCol()];
     }

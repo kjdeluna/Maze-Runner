@@ -23,7 +23,10 @@ public class Solver{
         this.initialState = initialState;
         // LinkedList<Directions> store = this.Actions(initialState);
         // System.out.println(store.size());
+        long startTime = System.currentTimeMillis();
         State solution = this.aStarSolve(this.initialState);
+        long endTime = System.currentTimeMillis();
+        System.out.println("That took " + (endTime - startTime) + " milliseconds.");
         if(solution != null){
             LinkedList<Directions> path = solution.getPath();
             for(Directions dir : path){
