@@ -5,8 +5,13 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import java.util.LinkedList;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+
 public class OptionsPanel extends JPanel{
     private World world;
     public OptionsPanel(World world){
@@ -17,12 +22,17 @@ public class OptionsPanel extends JPanel{
         this.setBackground(Color.BLACK);
         JButton generateMapButton = new JButton("New Map");
         JButton aStarSolveButton = new JButton("A* Solve");
+        JButton readFileButton = new JButton("Read file");
         this.add(generateMapButton);
         this.add(aStarSolveButton);
+        this.add(readFileButton);
         generateMapButton.setBounds(0,0,100,30);
         generateMapButton.setFocusable(false);
         aStarSolveButton.setBounds(100, 0, 100,30);
         aStarSolveButton.setFocusable(false);
+        readFileButton.setBounds(Main.FRAME_WIDTH-100,0,100,30);
+        readFileButton.setFocusable(false);
+        JFileChooser fileChooser = new JFileChooser();
         generateMapButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 world.generateWorldArray();
@@ -42,6 +52,20 @@ public class OptionsPanel extends JPanel{
                     SolutionWindow sw = new SolutionWindow(world, resultantState.getPath(), (endTime - startTime), resultantState.getF());
                 }
                 else System.out.println("No solution found");            
+            }
+        });
+        readFileButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                FileFilter filter = new FileNameExtensionFilter("IN files", "in");
+                fileChooser.setFileFilter(filter);                
+                fileChooser.showOpenDialog(null);
+                File filename = fileChooser.getSelectedFile();
+                if(filename != null){
+                    String filenameChosen = filename.getName();
+                    world.readFile(filenameChosen);
+                }
+                // String filenameChosen = fileChooser.getSelectedFile().getName();
+                // if(filenameChosen != null) world.readFile(filenameChosen);
             }
         });
         

@@ -67,10 +67,10 @@ public class World extends JPanel implements KeyListener{
                 }
                 int index = 1;
                 float randNum = rand.nextFloat();
-                if(randNum <= 0.001){ // .1% bias
+                if(randNum <= 0.005){ // .1% bias
                     index = 0;
                 }
-                else if(randNum <= 0.002){ // .1% bias
+                else if(randNum <= 0.01){ // .1% bias
                     index = 3;
                 }
                 else if(randNum <= 0.7){ // 69.8% bias
@@ -232,6 +232,7 @@ public class World extends JPanel implements KeyListener{
         }
     }
     public void readFile(String filename){
+        this.solved = false;
         try{
             int i = 0;
             String[] lineRead;
