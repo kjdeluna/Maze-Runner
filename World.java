@@ -65,8 +65,19 @@ public class World extends JPanel implements KeyListener{
                         continue;
                     }
                 }
-                int randNum = rand.nextInt(choices.length);
-                if(choices[randNum] == PLAYER){
+                int index = 1;
+                float randNum = rand.nextFloat();
+                if(randNum <= 0.001){ // .1% bias
+                    index = 0;
+                }
+                else if(randNum <= 0.002){ // .1% bias
+                    index = 3;
+                }
+                else if(randNum <= 0.7){ // 69.8% bias
+                    index = 1;
+                }
+                else index = 2; // 30% bias
+                if(choices[index] == PLAYER){
                     if(!playerGenerated){
                         playerGenerated = true;
                         this.player = new Player(i,j);
@@ -77,7 +88,7 @@ public class World extends JPanel implements KeyListener{
                         continue;
                     }
                 }
-                else if(choices[randNum] == GOAL_TILE){
+                else if(choices[index] == GOAL_TILE){
                     if(!goalGenerated){
                         this.goalRow = i;
                         this.goalCol = j;
@@ -90,7 +101,7 @@ public class World extends JPanel implements KeyListener{
                     }
                 }
                 else{
-                    this.worldArray[i][j] = choices[randNum];
+                    this.worldArray[i][j] = choices[index];
                 }
             }
         }
@@ -198,7 +209,11 @@ public class World extends JPanel implements KeyListener{
             this.solved = true;
         }
         this.repaint();
-        if(solved) JOptionPane.showMessageDialog(null, "You win");
+        if(solved) {
+            this.player.setTexture(Main.textureLoader.getTexture(Texture.DEFAULT_PATH, "player_win.png"));
+            this.repaint();
+            JOptionPane.showMessageDialog(null, "You win");
+        }
     }
 
     private void movePlayer(Directions dir){
@@ -285,7 +300,7 @@ public class World extends JPanel implements KeyListener{
                         Main.textureLoader.getTexture(Texture.DEFAULT_PATH, "wall.png").render(g2d, j * Main.TILE_SIZE, i * Main.TILE_SIZE);
                         break;
                     case VISITED_TILE:
-                        Main.textureLoader.getTexture(Texture.DEFAULT_PATH, "grass.png").render(g2d, j * Main.TILE_SIZE, i * Main.TILE_SIZE);
+                        Main.textureLoader.getTexture(Texture.DEFAULT_PATH, "rose.png").render(g2d, j * Main.TILE_SIZE, i * Main.TILE_SIZE);
                         break;
                     case UNVISITED_TILE:
                         Main.textureLoader.getTexture(Texture.DEFAULT_PATH, "grass.png").render(g2d, j * Main.TILE_SIZE, i * Main.TILE_SIZE);

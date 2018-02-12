@@ -14,6 +14,7 @@ public class Main {
     public static void main(String[] args){
         Main.textures = new String[]{ 
             "grass.png",
+            "rose.png",
             "wall.png",
             "water.png",
             "player_up.png",
