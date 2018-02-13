@@ -25,66 +25,38 @@ public class Main {
             "player_win.png"
         };
         Main.textureLoader = new TextureLoader(Texture.DEFAULT_PATH, Main.textures);
-        
-        Scanner sc = new Scanner(System.in);
-        int n;
-        do{
-            System.out.print("Enter number of rows: ");
-            n = sc.nextInt();
-            if(n < 2) System.out.println("Invalid input!");
-        } while (n < 2);
-        FRAME_HEIGHT = n * TILE_SIZE + 30;
-        FRAME_WIDTH = n * TILE_SIZE;
-        // ------- Initialize JFrame ---------
         gameFrame = new JFrame(Main.TITLE);
-        gameFrame.setPreferredSize(new Dimension(Main.FRAME_WIDTH, Main.FRAME_HEIGHT));
-        gameFrame.setResizable(false);
-        gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameFrame.setLayout(null);
-        // --- JFrame initialize end -----------
-
-        World world = new World(n);
-        OptionsPanel optionsPanel = new OptionsPanel(world);
-        world.setBounds(0,0, FRAME_WIDTH, FRAME_HEIGHT-30);
-        optionsPanel.setBounds(0, FRAME_HEIGHT-30, Main.FRAME_WIDTH, 30);
-        gameFrame.add(world);
-        gameFrame.add(optionsPanel);
-        // Pack components to JFrame
-        gameFrame.pack();
-        
-        // Center the frame
-        gameFrame.setLocationRelativeTo(null); // Center gameFrame to the screen
-        
-        gameFrame.setVisible(true);
+        Main.createFrame();
+        gameFrame.setLocationRelativeTo(null);
     }
 
     public static void createFrame(){
-        String stringedInput = JOptionPane.showInputDialog("Please input N: ");
-        int n = Integer.parseInt(stringedInput);
-        gameFrame.getContentPane().removeAll();
-        // gameFrame.removeAll();
-        // gameFrame.repaint();
-        FRAME_HEIGHT = n * TILE_SIZE + 30;
-        FRAME_WIDTH = n * TILE_SIZE;
-        gameFrame.setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
-        gameFrame.setResizable(false);
-        gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameFrame.setLayout(null);
-        World world = new World(n);
-        OptionsPanel optionsPanel = new OptionsPanel(world);
-        world.setBounds(0,0, FRAME_WIDTH, FRAME_HEIGHT-30);
-        optionsPanel.setBounds(0, FRAME_HEIGHT-30, Main.FRAME_WIDTH, 30);
-        gameFrame.add(world);
-        gameFrame.add(optionsPanel);
-        // Pack components to JFrame
-        gameFrame.pack();
-        gameFrame.revalidate();
-        gameFrame.repaint();
-        // Center the frame
-        gameFrame.setLocationRelativeTo(null); // Center gameFrame to the screen
-        
-        gameFrame.setVisible(true);
-
+        try{
+            String stringedInput = JOptionPane.showInputDialog("Please input N: ");
+            int n = Integer.parseInt(stringedInput);
+            gameFrame.getContentPane().removeAll();
+            FRAME_HEIGHT = n * TILE_SIZE + 30;
+            FRAME_WIDTH = n * TILE_SIZE;
+            gameFrame.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+            gameFrame.setResizable(false);
+            gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            gameFrame.setLayout(null);
+            World world = new World(n);
+            OptionsPanel optionsPanel = new OptionsPanel(world);
+            world.setBounds(0,0, FRAME_WIDTH, FRAME_HEIGHT-30);
+            optionsPanel.setBounds(0, FRAME_HEIGHT-30, Main.FRAME_WIDTH, 30);
+            gameFrame.add(world);
+            gameFrame.add(optionsPanel);
+            // Pack components to JFrame
+            // Center the frame
+            gameFrame.pack();
+            gameFrame.revalidate();
+            gameFrame.repaint();
+            // gameFrame.setLocationRelativeTo(null); // Center gameFrame to the screen
+            gameFrame.setVisible(true);
+        } catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "Invalid input!");
+        }
 
     }
 }

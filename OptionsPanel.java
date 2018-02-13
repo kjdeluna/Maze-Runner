@@ -22,8 +22,8 @@ public class OptionsPanel extends JPanel{
         this.setBackground(Color.BLACK);
         JButton generateMapButton = new JButton("New Map");
         JButton aStarSolveButton = new JButton("A* Solve");
-        JButton readFileButton = new JButton("Read file");
-        JButton createFrameButton = new JButton("New resized map");
+        JButton readFileButton = new JButton("Read File");
+        JButton createFrameButton = new JButton("Resize Map");
         this.add(generateMapButton);
         this.add(aStarSolveButton);
         this.add(readFileButton);
@@ -34,7 +34,7 @@ public class OptionsPanel extends JPanel{
         aStarSolveButton.setFocusable(false);
         readFileButton.setBounds(Main.FRAME_WIDTH-100,0,100,30);
         readFileButton.setFocusable(false);
-        createFrameButton.setBounds(200,0,100,30);
+        createFrameButton.setBounds(200,0,120,30);
         createFrameButton.setFocusable(false);
         JFileChooser fileChooser = new JFileChooser();
         generateMapButton.addActionListener(new ActionListener(){
