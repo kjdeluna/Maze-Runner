@@ -23,15 +23,19 @@ public class OptionsPanel extends JPanel{
         JButton generateMapButton = new JButton("New Map");
         JButton aStarSolveButton = new JButton("A* Solve");
         JButton readFileButton = new JButton("Read file");
+        JButton createFrameButton = new JButton("New resized map");
         this.add(generateMapButton);
         this.add(aStarSolveButton);
         this.add(readFileButton);
+        this.add(createFrameButton);
         generateMapButton.setBounds(0,0,100,30);
         generateMapButton.setFocusable(false);
         aStarSolveButton.setBounds(100, 0, 100,30);
         aStarSolveButton.setFocusable(false);
         readFileButton.setBounds(Main.FRAME_WIDTH-100,0,100,30);
         readFileButton.setFocusable(false);
+        createFrameButton.setBounds(200,0,100,30);
+        createFrameButton.setFocusable(false);
         JFileChooser fileChooser = new JFileChooser();
         generateMapButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
@@ -52,6 +56,11 @@ public class OptionsPanel extends JPanel{
                     SolutionWindow sw = new SolutionWindow(world, resultantState.getPath(), (endTime - startTime), resultantState.getF());
                 }
                 else System.out.println("No solution found");            
+            }
+        });
+        createFrameButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                Main.createFrame();
             }
         });
         readFileButton.addActionListener(new ActionListener(){
