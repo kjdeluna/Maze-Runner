@@ -67,13 +67,13 @@ public class World extends JPanel implements KeyListener{
                 }
                 int index = 1;
                 float randNum = rand.nextFloat();
-                if(randNum <= 0.005){ // .1% bias
+                if(randNum <= 0.005){ // .5% bias
                     index = 0;
                 }
-                else if(randNum <= 0.01){ // .1% bias
+                else if(randNum <= 0.01){ // 1% bias
                     index = 3;
                 }
-                else if(randNum <= 0.7){ // 69.8% bias
+                else if(randNum <= 0.7){ // 68.5% bias
                     index = 1;
                 }
                 else index = 2; // 30% bias
@@ -140,6 +140,7 @@ public class World extends JPanel implements KeyListener{
     }
     public void keyTyped(KeyEvent e){}
     public void keyReleased(KeyEvent e){}
+    /* Setters will be mainly for resizing and recreating the frame based on input N */
     public void setPlayer(Player player){
         this.player = player;
     }
@@ -147,6 +148,7 @@ public class World extends JPanel implements KeyListener{
         this.worldArray = worldArray;
     }
     public void invokeAction(Directions dir){
+        // This function moves the player
         if(solved) return;
         String nextObject = "";
         int currPlayerRow = this.player.getCurrRow();
@@ -155,7 +157,6 @@ public class World extends JPanel implements KeyListener{
         int nextPlayerCol = currPlayerCol;
         Directions headed = null;
         boolean outOfBounds = false;
-        // this.repaint();
         switch(dir){
             case UP:    
                 this.switchPlayerTexture(Directions.UP);
@@ -169,7 +170,6 @@ public class World extends JPanel implements KeyListener{
                 this.switchPlayerTexture(Directions.DOWN);
                 nextPlayerRow += 1;
                 outOfBounds = nextPlayerRow > ROWS - 1 ? true : false;
-                System.out.println(outOfBounds);
                 if(outOfBounds) return;
                 nextObject = down(this.player);
                 headed = Directions.DOWN;
@@ -292,10 +292,8 @@ public class World extends JPanel implements KeyListener{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        // System.out.println("");
         for(int i = 0; i < ROWS; i++){
             for(int j = 0; j < COLS; j++){
-                // System.out.print(this.worldArray[i][j] + " ");
                 switch(this.worldArray[i][j]){
                     case WALL: 
                         Main.textureLoader.getTexture(Texture.DEFAULT_PATH, "wall.png").render(g2d, j * Main.TILE_SIZE, i * Main.TILE_SIZE);
@@ -307,7 +305,6 @@ public class World extends JPanel implements KeyListener{
                         Main.textureLoader.getTexture(Texture.DEFAULT_PATH, "grass.png").render(g2d, j * Main.TILE_SIZE, i * Main.TILE_SIZE);
                         break;
                     case PLAYER:
-                        // Main.textureLoader.getTexture(Texture.DEFAULT_PATH, "grass.png").render(g2d, j * Main.TILE_SIZE, i * Main.TILE_SIZE);
                         switch(this.player.getPrevValue()){
                             case VISITED_TILE:
                                 Main.textureLoader.getTexture(Texture.DEFAULT_PATH, "grass.png").render(g2d, j * Main.TILE_SIZE, i * Main.TILE_SIZE);
@@ -324,7 +321,6 @@ public class World extends JPanel implements KeyListener{
 
                 }
             }
-                // System.out.println("");
         }
     }
 }

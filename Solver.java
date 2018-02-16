@@ -21,8 +21,6 @@ public class Solver{
 
     public Solver(State initialState){
         this.initialState = initialState;
-        // LinkedList<Directions> store = this.Actions(initialState);
-        // System.out.println(store.size());
     }
 
     private State contains(PriorityQueue<State> openList, State toBeInspectedState){
@@ -45,13 +43,15 @@ public class Solver{
     }
 
     public State aStarSolve(){
+        int count = 0;
         PriorityQueue<State> openList = new PriorityQueue<>(11, fValueComparator);
         HashMap<String,State> closedList = new HashMap<String,State>();
         openList.add(this.initialState);
 
         while(openList.peek() != null){
+            count++;
             State s = openList.poll();
-            System.out.println(s.getF());
+            System.out.println("Number of iterations: " + count);
             closedList.put(Integer.toString(s.getPlayer().getCurrRow()) + Integer.toString(s.getPlayer().getCurrCol()),s);
             if(GoalTest(s)) return s;
             for(Directions dir : Actions(s)){

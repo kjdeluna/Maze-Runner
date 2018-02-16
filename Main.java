@@ -27,10 +27,10 @@ public class Main {
         Main.textureLoader = new TextureLoader(Texture.DEFAULT_PATH, Main.textures);
         gameFrame = new JFrame(Main.TITLE);
         Main.createFrame();
-        gameFrame.setLocationRelativeTo(null);
     }
 
     public static void createFrame(){
+        // this is for resizing the frame
         try{
             String stringedInput = JOptionPane.showInputDialog("Please input N: ");
             int n = Integer.parseInt(stringedInput);
@@ -48,11 +48,9 @@ public class Main {
             gameFrame.add(world);
             gameFrame.add(optionsPanel);
             // Pack components to JFrame
-            // Center the frame
             gameFrame.pack();
             gameFrame.revalidate();
             gameFrame.repaint();
-            // gameFrame.setLocationRelativeTo(null); // Center gameFrame to the screen
             gameFrame.setVisible(true);
         } catch (NumberFormatException e){
             JOptionPane.showMessageDialog(null, "Invalid input!");
