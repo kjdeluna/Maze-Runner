@@ -52,7 +52,7 @@ public class Solver{
             count++;
             State s = openList.poll();
             System.out.println("Number of iterations: " + count);
-            closedList.put(Integer.toString(s.getPlayer().getCurrRow()) + Integer.toString(s.getPlayer().getCurrCol()),s);
+            closedList.put(Integer.toString(s.getPlayer().getCurrRow()) + "x" + Integer.toString(s.getPlayer().getCurrCol()),s);
             if(GoalTest(s)) return s;
             for(Directions dir : Actions(s)){
                 State x = Result(s,dir);
